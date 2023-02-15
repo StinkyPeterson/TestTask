@@ -15,7 +15,6 @@
         Введите Oid организации  
     </label>
     <InputText @bind-Value="substation.Station.OidOrganization" class="inputSubstation"></InputText>
-    @*<InputText @bind-Value="substation.Station.OidOrganization" class="inputSubstation" id="OidOrganization"></InputText>*@
     <label for="stationId" class="labelSubstation">
         Введите PromedId станции        
     </label>
@@ -88,11 +87,4 @@
             SaveWithoutCallback();
     }
 
-    public void keydown(Microsoft.AspNetCore.Components.Web.KeyboardEventArgs args)
-    {
-        if (args.Key == "Enter")
-        {
-            jsRuntime.InvokeVoidAsync("moveFocus");
-        }
-    }
 }

@@ -62,15 +62,6 @@ namespace TestTask
             }
         }
 
-        public bool CheckError(Substation substation)
-        {
-            var substationDb = substationCollection.Find(x => x.SubstationId == substation.SubstationId).FirstOrDefault();
-            if(substationDb != null)
-            {
-                return true;
-            }
-            return false;
-        }
 
     }
 }

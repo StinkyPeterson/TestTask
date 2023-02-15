@@ -11,8 +11,6 @@ namespace TestTask.Controllers
 {
     public class HomeController : Controller
     {
-        public static MongoClient client = new MongoClient("mongodb://localhost:27017");
-
 
         private readonly ILogger<HomeController> _logger;
 
@@ -25,16 +23,12 @@ namespace TestTask.Controllers
         //{
         //    return View();
         //}
-        public IActionResult AddSubstation(Substation? substation = null)
+        public IActionResult AddSubstation()
         {
-            if (substation != null)
-            {
-                return View(substation);
-            }
             return View();
         }
         [HttpGet]
-        public IActionResult ListOfSubstations(List<Substation>? substations = null)
+        public IActionResult ListOfSubstations()
         {
             return View();
         }
@@ -42,6 +36,7 @@ namespace TestTask.Controllers
         [HttpPost]
         public IActionResult ListOfSubstations(IFormFile file, [FromServices] Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
         {
+            DbContext dbContext = new DbContext();
             if (file == null)
                 return ListOfSubstations();
             string fileName = $"{hostingEnvironment.WebRootPath}\\files\\{file.FileName}";
@@ -51,11 +46,7 @@ namespace TestTask.Controllers
                 fileStream.Flush();
             }
             var substations = GetSubstationList(file.FileName);
-
-
-            var db = client.GetDatabase("TestTask");
-            //db.CreateCollection("substations");
-            IMongoCollection<Substation> substationCollect = db.GetCollection<Substation>("substations");
+            IMongoCollection<Substation> substationCollect = dbContext.SubstationCollect;
             if(substations.Count > 0)
                 substationCollect.InsertMany(substations);
 
