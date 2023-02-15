@@ -1,0 +1,182 @@
+﻿@using MongoDB.Driver;
+@using MongoDB.Bson;
+@using Models
+@using TestTask.Components
+@using Microsoft.AspNetCore.Mvc;
+@using System.ComponentModel.DataAnnotations
+
+
+<h2>Количество записей: @substations.Count</h2>
+<table class="table_list">
+    <thead>
+        <tr class="table_row">
+            <td class="col col_head">
+                OID_Организации
+            </td>
+            <td class="col col_head">
+                Lpu_ID_Промед
+            </td>
+            <td class="col col_head">
+                Станция_ID_АДИС
+            </td>
+            <td class="col col_head">
+                Name_Станция
+            </td>
+            <td class="col col_head">
+                Подстанция_ID_Промед
+            </td>
+            <td class="col col_head">
+                Подстанция_ID_АДИС
+            </td>
+            <td class="col col_head">
+                Name_Подстанция
+            </td>
+            <td class="col col_head">
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Substation substation in substations)
+        {
+
+            <tr class="table_row">
+                <td class="col">
+                    @substation.Station.OidOrganization
+                </td>
+                <td class="col">
+                    @substation.Station.PromedId
+                </td>
+                <td class="col">
+                    @substation.Station.StationAdisId
+                </td>
+                <td class="col">
+                    @substation.Station.StationName
+                </td>
+                <td class="col">
+                    @substation.SubstationPromedId
+                </td>
+                <td class="col">
+                    @substation.SubstationId
+                </td>
+                <td class="col">
+                    @substation.SubstationName
+                </td>
+                <td class="col">
+                    <button  @onclick="@(e=> Edit(substation.SubstationPromedId))">Редактировать</button>
+@*                    <button @onclick="@(e=> Edit(substation.SubstationPromedId))">
+                        Редактировать
+                    </button>*@
+                    <button @onclick="@(e=> Delete(substation.SubstationPromedId))">
+                        Удалить
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (showDialogWindow)
+{
+    <div id="openModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Название</h3>
+                    <button @onclick="() => showDialogWindow = false" title="Close" class="close">×</button>
+                </div>
+                <div class="modal-body">
+                    <FormSubstation substation="@substation" OnClickCallback="Save"></FormSubstation>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  @*  <div class="modal fade show" id="myModal"
+     style="display:block; background-color: rgba(10,10,10,.8);"
+     aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Редактирование</h4>
+                    <button type="button" @onclick="() => showDialogWindow = false" class="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="substation" >
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <label for="substationId">
+                            Введите Oid организации
+                            <InputText @bind-Value="substation.Station.OidOrganization"></InputText>
+                        </label>
+                        <label for="stationId">
+                            Введите PromedId станции
+                            <InputNumber @bind-Value="substation.Station.PromedId"></InputNumber>
+                        </label>
+                        <label for="substationId">
+                            Введите AdisId станции
+                            <InputNumber @bind-Value="substation.Station.StationAdisId"></InputNumber>
+                        </label>
+                        <label for="substationNAme">
+                            Введите название станции
+                            <InputText @bind-Value="substation.Station.StationName"></InputText>
+                        </label>
+                        <label for="substationPromedId">
+                            Введите PromedId подстанции
+                            <InputNumber @bind-Value="substation.SubstationPromedId"></InputNumber>
+                        </label>
+                        <label for="substationAdisId">
+                            Введите AdisId подстанции
+                            <InputNumber @bind-Value="substation.SubstationId"></InputNumber>
+                        </label>
+                        <label for="substationName">
+                            Введите Название подстанции
+                            <InputText @bind-Value="substation.SubstationName" id="substationName"></InputText>
+                        </label>
+                        <div class="modal-footer">
+                            <button type="submit" @onclick="Save" class="btn btn-primary">Сохранить</button>
+                            <button type="button" @onclick="() => showDialogWindow = false" class="btn btn-primary">Отмена</button>
+                        </div>
+                    </EditForm>                 
+                </div>
+            </div>
+        </div>
+    </div>*@
+}
+
+
+@code {
+    DbContext dbContext = new DbContext();
+    Substation substation = new Substation();
+    List<Substation> substations = new List<Substation>();
+    bool showDialogWindow = false;
+    protected override async Task OnInitializedAsync()
+    {
+        GetSubstations();
+    }
+    private void GetSubstations()
+    {
+        substations = dbContext.GetSubstations();
+    }
+
+    private void Save(Substation substation)
+    {
+        dbContext.SaveOrUpdate(substation);
+        Reset();
+        GetSubstations();
+        showDialogWindow = false;
+
+    }
+    private void Reset()
+    {
+        substation = new Substation();
+    }
+    private void Edit(int? id)
+    {
+        substation = dbContext.GetSubstation(id);
+        showDialogWindow = true;
+    }
+    private void Delete(int? id)
+    {
+        dbContext.Delete(id);
+        GetSubstations();
+    }
+}

@@ -1,0 +1,222 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column; /* размещаем элементы к колонку */
+    width: 240px;
+    min-height: 100vh; /* на всю высоту экрана */
+    position: fixed; /* чтобы меню было фиксированным */
+    top: 0; /* прижимаем к верхнему */
+    left: 0; /* .. и нижнему краю */
+    background-color: #343951;
+    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+}
+.container {
+    padding-left: 280px; /* отступ от бокового меню 240px + 40px */
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+}
+.menu_item {
+    position: relative; /* чтобы задать потом псевдоэлемент */
+    display: flex; /* чтобы элемент т€нулс€ на всю ширину */
+    align-items: center; /* по центру текст и иконка */
+    height: 45px; /* высота элемента 45px */
+    text-decoration: none;
+}
+a {
+    text-decoration: none;
+}
+.menu_link {
+    position: relative; /* чтобы задать потом псевдоэлемент */
+    display: flex; /* чтобы элемент т€нулс€ на всю ширину */
+    align-items: center; /* по центру текст и иконка */
+    height: 45px; /* высота элемента 45px */
+    text-decoration: none;
+    color: #b5b5b5;
+}
+
+
+
+.table_list {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-spacing: 0px 10px;
+}
+.table_row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.15);
+    border-radius: 3px;
+}
+
+.col {
+    /*    display: flex;*/
+    padding: 10px 0;
+    color: #6C7A89;
+    padding-right: 10px;
+    padding: 15px;
+    margin: 15px;
+    /*    content: attr(data-label);*/
+    /*    flex-basis: 50%;
+    text-align: right;*/
+}
+.col_head{
+    font-weight: bold;
+}
+
+
+
+
+
+
+.modal {
+    position: fixed; /* фиксированное положение */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5); /* цвет фона */
+    z-index: 1050;
+    opacity: 1; /* по умолчанию модальное окно прозрачно */
+    -webkit-transition: opacity 200ms ease-in;
+    -moz-transition: opacity 200ms ease-in;
+    transition: opacity 200ms ease-in; /* анимаци€ перехода */
+    pointer-events: auto; /* элемент невидим дл€ событий мыши */
+    margin: 0;
+    padding: 0;
+}
+    /* при отображении модального окно */
+    .modal:target {
+        opacity: 1; /* делаем окно видимым */
+        pointer-events: auto; /* элемент видим дл€ событий мыши */
+        overflow-y: auto; /* добавл€ем прокрутку по y, когда элемент не помещаетс€ на страницу */
+    }
+/* ширина модального окна и его отступы от экрана */
+.modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 10px;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 500px;
+        margin: 30px auto; /* дл€ отображени€ модального окна по центру */
+    }
+}
+/* свойства дл€ блока, содержащего контент модального окна */
+.modal-content {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3rem;
+    outline: 0;
+}
+
+@media (min-width: 1000px) {
+    .modal-content {
+        -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        width:600px;
+    }
+}
+/* свойства дл€ заголовка модального окна */
+.modal-header {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eceeef;
+}
+
+.modal-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+/* свойства дл€ кнопки "«акрыть" */
+.close {
+    float: right;
+    font-family: sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+    text-decoration: none;
+}
+    /* свойства дл€ кнопки "«акрыть" при нахождении еЄ в фокусе или наведении */
+    .close:focus, .close:hover {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        opacity: .75;
+    }
+/* свойства дл€ блока, содержащего основное содержимое окна */
+.modal-body {
+    position: relative;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 15px;
+    overflow: auto;
+}
+
+
+input {
+    display: block;
+    box-sizing: border-box;
+}
+.labelSubstation {
+    font-family: Arial;
+    font-size: 15px;
+    margin-top: 10%;
+}
+.inputSubstation {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

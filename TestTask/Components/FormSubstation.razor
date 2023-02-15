@@ -1,0 +1,89 @@
+﻿@using MongoDB.Driver;
+@using MongoDB.Bson;
+@using Models
+@using TestTask.Components
+@using Microsoft.AspNetCore.Mvc;
+@using System.ComponentModel.DataAnnotations
+@inject ILogger<Substation> Logger
+
+
+<EditForm class="formSubstation" EditContext="editContext" >
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <label for="substationId" class="labelSubstation">
+        Введите Oid организации  
+    </label>
+    <InputText @bind-Value="substation.Station.OidOrganization" class="inputSubstation" @onchange="SubmitForm"></InputText>
+    <label for="stationId" class="labelSubstation">
+        Введите PromedId станции        
+    </label>
+    <InputNumber @bind-Value="substation.Station.PromedId" class="inputSubstation" @onchange="SubmitForm"></InputNumber>
+    <label for="substationId" class="labelSubstation">
+        Введите AdisId станции 
+    </label>
+    <InputNumber @bind-Value="substation.Station.StationAdisId" class="inputSubstation" @onchange="SubmitForm"></InputNumber>
+    <label for="substationNAme" class="labelSubstation">
+        Введите название станции
+    </label>
+    <InputText @bind-Value="substation.Station.StationName" class="inputSubstation" @onchange="SubmitForm"></InputText>
+    <label for="substationPromedId" class="labelSubstation">
+        Введите PromedId подстанции
+    </label>
+    <InputNumber @bind-Value="substation.SubstationPromedId" class="inputSubstation" @onchange="SubmitForm"></InputNumber>
+    <label for="substationAdisId"class="labelSubstation">
+        Введите AdisId подстанции
+    </label>
+    <InputNumber @bind-Value="substation.SubstationId" class="inputSubstation" @onchange="SubmitForm"></InputNumber>
+    <label for="substationName" class="labelSubstation">
+        Введите Название подстанции
+    </label>
+    <InputText @bind-Value="substation.SubstationName" id="substationName" @onchange="SubmitForm"></InputText>
+    <div class="modal-footer">
+        <button type="submit" @onclick="SubmitForm" class="btn btn-primary" disabled="@isFormValid">Сохранить</button>
+        <button type="button" class="btn btn-primary">Отмена</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Substation substation { get; set; } = new Substation();
+    [Parameter]
+    public EventCallback<Substation> OnClickCallback { get; set; }
+    bool isFormValid = false;
+    //DbContext dbContext = new DbContext();
+    //List<Substation> substations = new List<Substation>();
+    //private void GetSubstations()
+    //{
+    //    substations = dbContext.GetSubstations();
+    //}
+
+    private void Save()
+    {
+        OnClickCallback.InvokeAsync(substation);
+    }
+    //private void Reset()
+    //{
+    //    substation = new Substation();
+    //}
+    private void OnInvalidSubmit()
+    {
+        Logger.LogInformation("Сработало событие OnInvalidSubmit");
+    }
+    EditContext editContext;
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(substation);
+
+    }
+    public void SubmitForm()
+    {
+        if (editContext.Validate())
+        {
+            Save();
+        }
+        else
+        {
+            Logger.LogInformation("бляяяя");
+        }
+    }
+}
