@@ -12,7 +12,7 @@ namespace TestTask.Controllers
     public class HomeController : Controller
     {
         public static MongoClient client = new MongoClient("mongodb://localhost:27017");
-        
+
 
         private readonly ILogger<HomeController> _logger;
 
@@ -36,11 +36,6 @@ namespace TestTask.Controllers
         [HttpGet]
         public IActionResult ListOfSubstations(List<Substation>? substations = null)
         {
-            //var db = client.GetDatabase("TestTask");
-            //IMongoCollection<Substation> substationCollect = db.GetCollection<Substation>("substations");
-            //substations = substationCollect.Find(new BsonDocument()).ToList();
-
-            //return View(substations);
             return View();
         }
 
@@ -69,6 +64,7 @@ namespace TestTask.Controllers
 
         private List<Substation> GetSubstationList(string fileName)
         {
+            DbContext dbContext = new DbContext();
             List<Substation> substations = new List<Substation>();
             var fName = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\files"}" + "\\" + fileName;
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -88,12 +84,8 @@ namespace TestTask.Controllers
                         substation.SubstationPromedId = reader.IsDBNull(4) == true ? null : int.Parse(reader.GetValue(4).ToString());
                         substation.SubstationId = reader.IsDBNull(5) == true ? null : int.Parse(reader.GetValue(5).ToString());
                         substation.SubstationName = reader.IsDBNull(6) == true ? null : reader.GetValue(6).ToString();
-                        substation.Station = station;
-                        //if (int.TryParse(reader.GetValue(1).ToString(), out number))
-                        //    substation.PromedId = int.Parse(reader.GetValue(1).ToString());
-                        var db = client.GetDatabase("TestTask");
-                        IMongoCollection<Substation> substationCollect = db.GetCollection<Substation>("substations");
-                        if(substationCollect.Find(new BsonDocument("_id",substation.SubstationPromedId)).Count() == 0)
+                        substation.Station = station;    
+                        if (dbContext.SubstationCollect.Find(new BsonDocument("_id",substation.SubstationPromedId)).Count() == 0)
                             substations.Add(substation);
 
                     }
@@ -109,14 +101,6 @@ namespace TestTask.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-        [AcceptVerbs("Get", "Post")]
-        public IActionResult CheckEmail(string email)
-        {
-            if (email == "admin@mail.ru" || email == "aaa@gmail.com")
-                return Json(false);
-            return Json(true);
-        }
 
     }
 }

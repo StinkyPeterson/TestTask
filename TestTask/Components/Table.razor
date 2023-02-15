@@ -61,12 +61,12 @@
                 <td class="col">
                     @substation.SubstationName
                 </td>
-                <td class="col">
-                    <button  @onclick="@(e=> Edit(substation.SubstationPromedId))">Редактировать</button>
+                <td class="col" style="text-align:right;">
+                    <button @onclick="@(e=> Edit(substation.SubstationPromedId))" class="btn btnEdit btnTable">Редактировать</button>
 @*                    <button @onclick="@(e=> Edit(substation.SubstationPromedId))">
                         Редактировать
                     </button>*@
-                    <button @onclick="@(e=> Delete(substation.SubstationPromedId))">
+                    <button @onclick="@(e=> Delete(substation.SubstationPromedId))" class="btn btnDelete btnTable">
                         Удалить
                     </button>
                 </td>
@@ -80,66 +80,16 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Название</h3>
+                    <h3 class="modal-title">Редактирование подстанции</h3>
                     <button @onclick="() => showDialogWindow = false" title="Close" class="close">×</button>
                 </div>
                 <div class="modal-body">
-                    <FormSubstation substation="@substation" OnClickCallback="Save"></FormSubstation>
+                    <FormSubstation substation="@substation" isEditForm="@true" OnClickCallback="Save"></FormSubstation>
                 </div>
             </div>
         </div>
     </div>
 
-  @*  <div class="modal fade show" id="myModal"
-     style="display:block; background-color: rgba(10,10,10,.8);"
-     aria-modal="true" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Редактирование</h4>
-                    <button type="button" @onclick="() => showDialogWindow = false" class="close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <EditForm Model="substation" >
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-                        <label for="substationId">
-                            Введите Oid организации
-                            <InputText @bind-Value="substation.Station.OidOrganization"></InputText>
-                        </label>
-                        <label for="stationId">
-                            Введите PromedId станции
-                            <InputNumber @bind-Value="substation.Station.PromedId"></InputNumber>
-                        </label>
-                        <label for="substationId">
-                            Введите AdisId станции
-                            <InputNumber @bind-Value="substation.Station.StationAdisId"></InputNumber>
-                        </label>
-                        <label for="substationNAme">
-                            Введите название станции
-                            <InputText @bind-Value="substation.Station.StationName"></InputText>
-                        </label>
-                        <label for="substationPromedId">
-                            Введите PromedId подстанции
-                            <InputNumber @bind-Value="substation.SubstationPromedId"></InputNumber>
-                        </label>
-                        <label for="substationAdisId">
-                            Введите AdisId подстанции
-                            <InputNumber @bind-Value="substation.SubstationId"></InputNumber>
-                        </label>
-                        <label for="substationName">
-                            Введите Название подстанции
-                            <InputText @bind-Value="substation.SubstationName" id="substationName"></InputText>
-                        </label>
-                        <div class="modal-footer">
-                            <button type="submit" @onclick="Save" class="btn btn-primary">Сохранить</button>
-                            <button type="button" @onclick="() => showDialogWindow = false" class="btn btn-primary">Отмена</button>
-                        </div>
-                    </EditForm>                 
-                </div>
-            </div>
-        </div>
-    </div>*@
 }
 
 

@@ -11,7 +11,7 @@ namespace TestTask.Models
     {
         [BsonId]
         public int? SubstationPromedId { get; set; } = null;
-        [ValidatorSubstationId]
+        //[ValidatorSubstationId]
         public int? SubstationId { get; set; } = null;
         public string? SubstationName { get; set; } = "";
         public Station Station { get; set; } = new Station();

@@ -9,7 +9,7 @@ namespace TestTask.Models
     {
         public string? OidOrganization { get; set; } = "";
         public int? PromedId { get; set; } = null;
-        [ValidatorStationAdisId]
+        //[ValidatorStationAdisId]
         public int? StationAdisId { get; set; } = null;
         public string? StationName { get; set; } = "";
 

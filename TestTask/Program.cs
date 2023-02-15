@@ -1,5 +1,4 @@
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-
 namespace TestTask
 {
     public class Program

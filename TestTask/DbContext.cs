@@ -40,23 +40,24 @@ namespace TestTask
         public void SaveOrUpdate(Substation substation)
         {
             Substation substationDb = substationCollection.Find(x => x.SubstationPromedId == substation.SubstationPromedId).FirstOrDefault();
-            Station stationDb = substationDb.Station;
-            Station station = substation.Station;
-            
-            if (!station.Equals(stationDb))
-            {
-                List<Substation> substations = GetSubstations().Where(x => x.Station.PromedId == station.PromedId).ToList();
-                substations.ForEach(x => x.Station = station);
-                foreach(Substation sub in substations)
-                    substationCollection.ReplaceOne(x => x.SubstationPromedId == sub.SubstationPromedId, sub);
 
-            }
             if (substationDb == null)
             {
                 substationCollection.InsertOne(substation);
             }
             else
             {
+                Station stationDb = substationDb.Station;
+                Station station = substation.Station;
+
+                if (!station.Equals(stationDb))
+                {
+                    List<Substation> substations = GetSubstations().Where(x => x.Station.PromedId == station.PromedId).ToList();
+                    substations.ForEach(x => x.Station = station);
+                    foreach (Substation sub in substations)
+                        substationCollection.ReplaceOne(x => x.SubstationPromedId == sub.SubstationPromedId, sub);
+
+                }
                 substationCollection.ReplaceOne(x => x.SubstationPromedId == substationDb.SubstationPromedId, substation);
             }
         }
